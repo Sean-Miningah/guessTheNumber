@@ -11,13 +11,30 @@ public class GameLogic : MonoBehaviour
     public int minValue;
     public int maxValue;
     public Button gameButton;
+    private bool isGameWon=false;
     private int randomNum;
 
     // Start is called before the first frame update
     void Start()
     {
+        ResetGame();
+    }
+
+    private void ResetGame()
+    {
+        if (isGameWon)
+        {
+            gameLabel.text = $"You Won! Guess a number between {minValue} and "+ (maxValue - 1);
+            isGameWon = false;
+        }
+        else 
+        {
+            gameLabel.text = $"Guess a number between {minValue} and "+ (maxValue - 1);
+
+        }
+        userInput.text= "";
         randomNum = GetRandomNumber(minValue,maxValue);
-        gameLabel.text = $"Guess a number between {minValue} and "+ (maxValue - 1);
+        
     }
 
     // Update is called once per frame
@@ -42,7 +59,9 @@ public class GameLogic : MonoBehaviour
             if(answer == randomNum)
             {
                 gameLabel.text = "correct";
-                gameButton.interactable = false;
+                // gameButton.interactable = false;
+                isGameWon = true;
+                ResetGame();
                 Debug.Log("Correct!");
             }
             else if(answer > randomNum)
